@@ -11,7 +11,7 @@ public class Trade {
 	private DateTime time;
 	private float Price;
 	private int Quantity;
-	public Trade(int tradeId, int customerID, String tradeType, String securityType, String securityName, DateTime time,
+	public Trade(int tradeId, int customerID, String tradeType, String securityType, String securityName,
 			int price, int quantity) {
 		super();
 		TradeId = tradeId;
@@ -19,7 +19,7 @@ public class Trade {
 		TradeType = tradeType;
 		SecurityType = securityType;
 		SecurityName = securityName;
-		this.time = time;
+		this.time = new DateTime();
 		Price = price;
 		Quantity = quantity;
 	}

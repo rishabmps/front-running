@@ -1,7 +1,10 @@
+
+
+drop  database front_running
 create database front_running
 use  front_running
 
-CREATE TABLE [dbo].[AppleCustomerOrder]( [TradeID] [int] NOT NULL, [CustomerID] [int] NOT NULL, [TradeType] [varchar](50) NOT NULL, [SecurityType] [nvarchar](50) NOT NULL, [SecurityName] [nvarchar](50) NOT NULL, [Price] [int] NOT NULL, [Quantity] [float] NOT NULL, [Time] [datetime] NULL, CONSTRAINT [PK2_CustomerOrder] PRIMARY KEY CLUSTERED ( [TradeID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] )
+alter TABLE [dbo].[AppleCustomerOrder]( [TradeID] [int] NOT NULL, [CustomerID] [int] NOT NULL, [TradeType] [varchar](50) NOT NULL, [SecurityType] [nvarchar](50) NOT NULL, [SecurityName] [nvarchar](50) NOT NULL, [Price] [float] NOT NULL, [Quantity] [int] NOT NULL, [Time] [datetime] NULL, CONSTRAINT [PK2_CustomerOrder] PRIMARY KEY CLUSTERED ( [TradeID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] )
 
 CREATE TABLE [dbo].[FacebookCustomerOrder]( [TradeID] [int] NOT NULL, [CustomerID] [int] NOT NULL, [TradeType] [varchar](50) NOT NULL, [SecurityType] [nvarchar](50) NOT NULL, [SecurityName] [nvarchar](50) NOT NULL, [Price] [int] NOT NULL, [Quantity] [float] NOT NULL, [Time] [datetime] NULL, CONSTRAINT [PK1_CustomerOrder] PRIMARY KEY CLUSTERED ( [TradeID] ASC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] )
 

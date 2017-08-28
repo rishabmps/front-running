@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
+
+import Entities.Trade;
+
 /**
  * Servlet implementation class WelcomeServlet
  */
@@ -32,7 +36,15 @@ public class WelcomeServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		PrintWriter out = response.getWriter();
 		out.println(request.getParameter("tradeid"));
-		out.println("HEllo");
+		
+
+		Trade t1 = new Trade(Integer.parseInt(request.getParameter("tradeid")),
+				Integer.parseInt(request.getParameter("customerid")), request.getParameter("tradetype"),
+				request.getParameter("securitytype"), request.getParameter("securityname"),
+				Integer.parseInt(request.getParameter("price")), Integer.parseInt(request.getParameter("quantity")));
+		
+		
+
 	}
 
 	/**

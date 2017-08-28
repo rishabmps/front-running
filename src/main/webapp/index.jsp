@@ -29,14 +29,14 @@
 
 
 		<p>Security Option :</p>
-		<input type="radio" name="security" value=1>Apple <input
-			type="radio" name="security" value=2>Facebook <input
-			type="radio" name="security" value=3>WallMart
+		<input type="radio" name="security" value="apple">Apple <input
+			type="radio" name="security" value="facebook">Facebook <input
+			type="radio" name="security" value="walmart">WalMart
 		<p>Security Type :</p>
-		<input type="radio" name="securitytype" value=1>Common Stocks
-		<input type="radio" name="securitytype" value=2>Call Option <input
-			type="radio" name="securitytype" value=3>Put Option <input
-			type="radio" name="securitytype" value=4>Futures
+		<input type="radio" name="securitytype" value="stocks">Common Stocks
+		<input type="radio" name="securitytype" value="call_options">Call Option <input
+			type="radio" name="securitytype" value="put_options">Put Option <input
+			type="radio" name="securitytype" value="futures">Futures
 
 		<p>Quantity of the Trade :</p>
 		<input type="text" name="tradequantity" value=""> <br>
