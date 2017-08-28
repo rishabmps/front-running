@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: ConnectionManagerTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.103 sec <<< FAILURE!
-checkConnection(ConnectionManagerTest)  Time elapsed: 0.03 sec  <<< FAILURE!
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.093 sec <<< FAILURE!
+checkConnection(ConnectionManagerTest)  Time elapsed: 0.025 sec  <<< FAILURE!
 java.lang.AssertionError
 	at org.junit.Assert.fail(Assert.java:86)
 	at org.junit.Assert.assertTrue(Assert.java:41)
