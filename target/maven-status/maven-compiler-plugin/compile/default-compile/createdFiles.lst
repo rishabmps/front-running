@@ -1,2 +1,4 @@
+com\citi\database_service\BankingService.class
 com\citi\database_service\ConnectionManager.class
 com\citi\database_service\DbManager.class
+com\citi\servlet\WelcomeServlet.class
