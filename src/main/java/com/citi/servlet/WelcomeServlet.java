@@ -39,7 +39,7 @@ public class WelcomeServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println(request.getParameter("tradeid"));
 		
-
+		System.out.println("kajshdjkasbdjk");
 		Trade trade = new Trade(Integer.parseInt(request.getParameter("tradeid")),
 				Integer.parseInt(request.getParameter("customerid")), request.getParameter("tradetype"),
 				request.getParameter("securitytype"), request.getParameter("securityname"),

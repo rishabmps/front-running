@@ -28,11 +28,13 @@ public class TradeExecutionService {
 	}
 
 	private void insertTrade(DbManager manager,Trade trade, String tableName) {
-		 
+		 System.out.println(manager.connection);
 		try {
-			manager.Update("INSERT into " + tableName + " values (" + trade.getTradeId() + ", " + trade.getCustomerID()
-					+ " , " + trade.getTradeType() + " ," + trade.getSecurityType() + " , " + trade.getSecurityName()
-					+ ", " + trade.getPrice() + ", " + trade.getQuantity() + ", " + trade.getTime() + ")");
+			String query = "INSERT into " + tableName + "(TradeID,CustomerID,TradeType,SecurityType,SecurityName,Price,Quantity) values (" + trade.getTradeId() + ", " + trade.getCustomerID()
+			+ " , " + trade.getTradeType() + " ," + trade.getSecurityType() + " , " + trade.getSecurityName()
+			+ ", " + trade.getPrice() + ", " + trade.getQuantity() +  ")";
+			System.out.println(query);
+			manager.Update(query);
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -43,7 +45,9 @@ public class TradeExecutionService {
 
 	public void saveTrade(Trade trade) {
 		// TODO Auto-generated method stub
+		
 		DbManager manager = new DbManager();
+		System.out.println(manager);
 		if (trade.getCustomerID() == 1) // citi ID
 		{
 			if (trade.getSecurityName() == "apple") {

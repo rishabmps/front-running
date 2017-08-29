@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DbManager {
-	Connection connection ;
+	ConnectionManager manager = new ConnectionManager();
+	Connection connection =manager.connect();
 	public ResultSet findAll(String query){
-		ConnectionManager manager = new ConnectionManager();
-		connection =manager.connect();
+		
 		ResultSet result = null;
 		try {
 			Statement statement = connection.createStatement();
@@ -26,8 +26,7 @@ public class DbManager {
 	}
 	
 	public void Update(String query){
-		ConnectionManager manager = new ConnectionManager();
-		connection =manager.connect();
+		
 		
 		try {
 			Statement statement = connection.createStatement();
