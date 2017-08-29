@@ -27,8 +27,8 @@ public class TradeExecutionService {
 
 	}
 
-	public void insertTrade(DbManager manager,Trade trade, String tableName) {
-		 manager = new DbManager();
+	private void insertTrade(DbManager manager,Trade trade, String tableName) {
+		 
 		try {
 			manager.Update("INSERT into " + tableName + " values (" + trade.getTradeId() + ", " + trade.getCustomerID()
 					+ " , " + trade.getTradeType() + " ," + trade.getSecurityType() + " , " + trade.getSecurityName()

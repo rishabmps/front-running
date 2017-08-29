@@ -12,7 +12,7 @@ public class ConnectionManager {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-			connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Recruitment;integratedSecurity=true;");
+			connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=front_running;integratedSecurity=true;");
 
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

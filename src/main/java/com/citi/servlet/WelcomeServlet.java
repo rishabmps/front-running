@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
 
+import com.citi.database_service.TradeExecutionService;
+
 import Entities.Trade;
 
 /**
@@ -38,13 +40,14 @@ public class WelcomeServlet extends HttpServlet {
 		out.println(request.getParameter("tradeid"));
 		
 
-		Trade t1 = new Trade(Integer.parseInt(request.getParameter("tradeid")),
+		Trade trade = new Trade(Integer.parseInt(request.getParameter("tradeid")),
 				Integer.parseInt(request.getParameter("customerid")), request.getParameter("tradetype"),
 				request.getParameter("securitytype"), request.getParameter("securityname"),
-				Integer.parseInt(request.getParameter("price")), Integer.parseInt(request.getParameter("quantity")));
+				Float.parseFloat(request.getParameter("price")), Integer.parseInt(request.getParameter("quantity")));
 		
+		TradeExecutionService service = new TradeExecutionService();
+		service.saveTrade(trade);
 		
-
 	}
 
 	/**

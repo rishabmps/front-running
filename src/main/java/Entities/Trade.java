@@ -12,7 +12,7 @@ public class Trade {
 	private float Price;
 	private int Quantity;
 	public Trade(int tradeId, int customerID, String tradeType, String securityType, String securityName,
-			int price, int quantity) {
+			float price, int quantity) {
 		super();
 		TradeId = tradeId;
 		CustomerID = customerID;
