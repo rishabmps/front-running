@@ -5,6 +5,8 @@ import java.sql.SQLException;
 
 import Entities.Trade;
 
+
+
 public class TradeExecutionService {
 
 	public Integer getCount(String query) {
@@ -30,9 +32,9 @@ public class TradeExecutionService {
 	private void insertTrade(DbManager manager,Trade trade, String tableName) {
 		 System.out.println(manager.connection);
 		try {
-			String query = "INSERT into " + tableName + "(TradeID,CustomerID,TradeType,SecurityType,SecurityName,Price,Quantity) values (" + trade.getTradeId() + ", " + trade.getCustomerID()
-			+ " , " + trade.getTradeType() + " ," + trade.getSecurityType() + " , " + trade.getSecurityName()
-			+ ", " + trade.getPrice() + ", " + trade.getQuantity() +  ")";
+			String query = "INSERT into " + tableName + " values (" + trade.getTradeId() + ", " + trade.getCustomerID()
+			+ " , '" + trade.getTradeType() + "' ,'" + trade.getSecurityType() + "' , '" + trade.getSecurityName()
+			+ "', " + trade.getPrice() + ", " + trade.getQuantity() +  ",'" + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(trade.getTime()) + "')";
 			System.out.println(query);
 			manager.Update(query);
 
@@ -47,27 +49,28 @@ public class TradeExecutionService {
 		// TODO Auto-generated method stub
 		
 		DbManager manager = new DbManager();
-		System.out.println(manager);
+		System.out.println(trade);
+	
 		if (trade.getCustomerID() == 1) // citi ID
 		{
-			if (trade.getSecurityName() == "apple") {
+			if (trade.getSecurityName().equalsIgnoreCase("apple")) {
 				insertTrade(manager,trade, "AppleFirmOrder");
 			}
-			else if (trade.getSecurityName() == "facebook") {
+			else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
 				insertTrade(manager,trade, "FacebookFirmOrder");
 			}
-			else if (trade.getSecurityName() == "walmart") {
+			else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
 				insertTrade(manager,trade, "WalmartFirmOrder");
 			}
 		}
 		else{
-			if (trade.getSecurityName() == "apple") {
+			if (trade.getSecurityName().equalsIgnoreCase("apple")) {
 				insertTrade(manager,trade, "AppleCustomerOrder");
 			}
-			else if (trade.getSecurityName() == "facebook") {
+			else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
 				insertTrade(manager,trade, "FacebookCustomerOrder");
 			}
-			else if (trade.getSecurityName() == "walmart") {
+			else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
 				insertTrade(manager,trade, "WalmartCustomerOrder");
 			}
 		}
