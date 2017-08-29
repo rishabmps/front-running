@@ -27,6 +27,20 @@ public class Trade {
 		Quantity = quantity;
 	}
 
+	public Trade(int tradeId, int customerID, String tradeType, String securityType, String securityName, Float price,
+			int quantity, Date time) {
+		// TODO Auto-generated constructor stub
+		super();
+		TradeId = tradeId;
+		CustomerID = customerID;
+		TradeType = tradeType;
+		SecurityType = securityType;
+		SecurityName = securityName;
+		this.time = time;
+		Price = price;
+		Quantity = quantity;
+	}
+
 	public int getTradeId() {
 		return TradeId;
 	}
