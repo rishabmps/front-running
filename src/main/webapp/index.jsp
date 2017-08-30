@@ -73,7 +73,7 @@
 	          </div>
 	          <div class="form-check">
 	            <label class="form-check-label">
-	              <input class="form-check-input" type="radio" name="securityname" id="gridRadios2" value="wallmart">
+	              <input class="form-check-input" type="radio" name="securityname" id="gridRadios2" value="walmart">
 	              Wallmart
 	            </label>
 	          </div>

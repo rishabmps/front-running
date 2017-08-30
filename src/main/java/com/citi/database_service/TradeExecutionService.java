@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.joda.time.DateTime;
 
@@ -51,40 +52,48 @@ public class TradeExecutionService {
 
 	}
 
-	public void saveTrade(Trade trade) {
+	public boolean executeTrade(Trade trade) {
 		// TODO Auto-generated method stub
 
 		DbManager manager = new DbManager();
 		System.out.println(trade);
 		DateTime date = new DateTime(trade.getTime());
 		DateTime prevDate = date.minusMinutes(10);
+//		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		if (trade.getCustomerID() == 1) // citi ID
 		{
 			System.out.println("inside loop");
 			if (trade.getSecurityName().equalsIgnoreCase("apple")) {
 				insertTrade(manager, trade, "AppleFirmOrder");
-				
+				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"AppleFirmOrder");
 			} else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
 				insertTrade(manager, trade, "FacebookFirmOrder");
+				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"FacebookFirmOrder");
 			} else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
 				insertTrade(manager, trade, "WalmartFirmOrder");
+				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"WalmartFirmOrder");
+				
 			}
 		} else {
 			if (trade.getSecurityName().equalsIgnoreCase("apple")) {
 				insertTrade(manager, trade, "AppleCustomerOrder");
+				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"AppleCustomerOrder");
 			} else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
 				insertTrade(manager, trade, "FacebookCustomerOrder");
+				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"FacebookCustomerOrder");
 			} else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
 				insertTrade(manager, trade, "WalmartCustomerOrder");
+				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"WalmartCustomerOrder");
 			}
 		}
 		
 		manager.closeConnection();
+		return false;
 
 	}
 
-	private void checkFraud(Trade trade, Date date, Date prevDate, DbManager manager) {
+	private boolean checkFraud(Trade trade, Date date, Date prevDate, DbManager manager,String tableName) {
 		// TODO Auto-generated method stub
 		String endDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 		String startingDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(prevDate);
@@ -93,7 +102,37 @@ public class TradeExecutionService {
 		ResultSet result = manager.findAll(query);
 		System.out.println(result);
 		ArrayList<Trade> list = convertToArrayList(result);
-		System.out.println(Arrays.toString(list.toArray()));
+		display(list);
+		return isFraud(list);
+	}
+	
+	
+
+	private boolean isFraud(ArrayList<Trade> list) {
+		// TODO Auto-generated method stub
+		if(detection(list)==null){
+			return false;
+		}
+		return true;
+	}
+
+	private ArrayList<Trade> detection(ArrayList<Trade> list) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void display(ArrayList<Trade> list) {
+		// TODO Auto-generated method stub
+		if(list!=null){
+			for (Iterator<Trade> iterator = list.iterator(); iterator.hasNext();) {
+				Trade trade = (Trade) iterator.next();
+				System.out.println(trade);
+			}
+		}
+		else{
+			System.out.println("List is Null");
+		}
+		
 	}
 
 	private ArrayList<Trade> convertToArrayList(ResultSet result) {
@@ -120,7 +159,7 @@ public class TradeExecutionService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return list;
 	}
 

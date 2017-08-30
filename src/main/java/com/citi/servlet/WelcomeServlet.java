@@ -44,7 +44,7 @@ public class WelcomeServlet extends HttpServlet {
 				Float.parseFloat(request.getParameter("price")), Integer.parseInt(request.getParameter("quantity")));
 
 		TradeExecutionService service = new TradeExecutionService();
-		service.saveTrade(trade);
+		service.executeTrade(trade);
 
 	}
 
