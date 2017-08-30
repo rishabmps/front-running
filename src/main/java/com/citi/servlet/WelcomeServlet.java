@@ -47,8 +47,8 @@ public class WelcomeServlet extends HttpServlet {
 			request.setAttribute("tradeId", ++tradeId);
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
-		
-		else if (operation != null && operation == "execute") {
+
+		else if (operation != null && operation.equalsIgnoreCase("execute")) {
 
 			Trade trade = new Trade(Integer.parseInt(request.getParameter("tradeid")),
 					Integer.parseInt(request.getParameter("customerid")), request.getParameter("tradetype"),
