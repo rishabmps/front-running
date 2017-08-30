@@ -39,7 +39,7 @@
 					ID</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="tradeid"
-						placeholder="Trade ID" value="<%=tradeId%>">
+						placeholder="Trade ID" value="<%=tradeId%>" readonly >
 				</div>
 			</div>
 
@@ -49,7 +49,7 @@
 					ID</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="customerid"
-						placeholder="Customer ID">
+						placeholder="Customer ID" required>
 				</div>
 			</div>
 
@@ -61,7 +61,7 @@
 						<div class="form-check">
 							<label class="form-check-label"> <input
 								class="form-check-input" type="radio" name="tradetype"
-								id="gridRadios1" value="Buy" checked> Buy
+								id="gridRadios1" value="Buy" checked > Buy
 							</label>
 						</div>
 						<div class="form-check">
@@ -139,7 +139,7 @@
 					of Trade</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="quantity"
-						placeholder="Quantity">
+						placeholder="Quantity" required>
 				</div>
 			</div>
 
@@ -148,7 +148,7 @@
 					Unit</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="price"
-						placeholder="Price">
+						placeholder="Price" required>
 				</div>
 			</div>
 

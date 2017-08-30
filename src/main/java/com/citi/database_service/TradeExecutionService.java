@@ -103,7 +103,7 @@ public class TradeExecutionService {
 				+ "'";
 		System.out.println(query);
 		ResultSet result = manager.findAll(query);
-		System.out.println(result);
+
 		ArrayList<Trade> list = convertToArrayList(result);
 		display(list);
 		return isFraud(list);
@@ -112,10 +112,9 @@ public class TradeExecutionService {
 	private boolean isFraud(ArrayList<Trade> list) {
 		// TODO Auto-generated method stub
 		ArrayList<Trade> frauds = detection(list);
-		if(frauds==null){
+		if (frauds == null) {
 			return false;
-		}
-		else if (frauds.size()<3) {
+		} else if (frauds.size() < 3) {
 			return false;
 		}
 		System.out.println("Frad wli Trades");
