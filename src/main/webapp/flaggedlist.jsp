@@ -32,44 +32,49 @@
 				<center>Front Running Trades</center>
 			</h1>
 		</div>
-		
+
 		<%
 			try {
 				ArrayList<Trade> tradeList = (ArrayList<Trade>) request.getAttribute("Trades");
 		%>
-		
-			<table class="table table-inverse">
-				<thead>
-					<tr>
-						<th>Trade ID</th>
-						<th>Customer ID</th>
-						<th>Trade Type</th>
-						<th>Security Type</th>
-						<th>Security Name</th>
-						<th>Time</th>
-						<th>Price</th>
-						<th>Quantity</th>
-					</tr>
-				</thead>
-				<%
-					for (Trade t : tradeList) {
-				%>
-				<tr>
-					<td><%=t.getTradeId()%></td>
-					<td><%=t.getCustomerID()%></td>
-					<td><%=t.getTradeType()%></td>
-					<td><%=t.getSecurityType()%></td>
-					<td><%=t.getSecurityName()%></td>
-					<td><%=t.getTime()%></td>
-					<td><%=t.getPrice()%></td>
-					<td><%=t.getQuantity()%></td>
-				</tr>
 
-				<%
-					}
-				%>
-			</table>
-		
+		<table class="table table-inverse">
+			<thead>
+				<tr>
+					<th>Trade ID</th>
+					<th>Customer ID</th>
+					<th>Trade Type</th>
+					<th>Security Type</th>
+					<th>Security Name</th>
+					<th>Time</th>
+					<th>Price</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+			<%
+				for (Trade t : tradeList) {
+			%>
+			<tr>
+				<td><%=t.getTradeId()%></td>
+				<td><%=t.getCustomerID()%></td>
+				<td><%=t.getTradeType()%></td>
+				<td><%=t.getSecurityType()%></td>
+				<td><%=t.getSecurityName()%></td>
+				<td><%=t.getTime()%></td>
+				<td><%=t.getPrice()%></td>
+				<td><%=t.getQuantity()%></td>
+			</tr>
+
+			<%
+				}
+			%>
+		</table>
+		<form action="./trade">
+			<input type="hidden" name="operation" id="operation" value="home">
+			<center>
+				<input type="submit" class="btn btn-primary" value="back">
+			</center>
+		</form>
 		<%
 			// Forward to JSP page to display them in a HTML table.
 			} catch (Exception e) {

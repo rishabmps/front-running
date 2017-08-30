@@ -45,8 +45,7 @@ public class WelcomeServlet extends HttpServlet {
 		// System.out.println("kajshdjkasbdjk");
 		String operation = request.getParameter("operation");
 		if (operation == null) {
-			request.setAttribute("tradeId", ++tradeId);
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			sendToHome(request, response);
 		}
 
 		else if (operation != null && operation.equalsIgnoreCase("execute")) {
@@ -67,12 +66,20 @@ public class WelcomeServlet extends HttpServlet {
 			} else {
 				System.out.println("No Fraud Detected");
 				request.setAttribute("isFraud",new Boolean(false) );
-				request.setAttribute("tradeId", ++tradeId);
-				request.getRequestDispatcher("/index.jsp").forward(request, response);
+				sendToHome(request, response);
 			}
+		}
+		else if(operation != null && operation.equalsIgnoreCase("home")){
+			sendToHome(request, response);
 		}
 		
 
+	}
+
+	private void sendToHome(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setAttribute("tradeId", ++tradeId);
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
 	/**

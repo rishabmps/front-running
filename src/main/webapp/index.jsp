@@ -172,16 +172,16 @@
 					<label for="quantity" class="col-sm-2 col-form-label control-label">Quantity
 						of Trade</label>
 					<div class="col-sm-10">
-						<input type="text" min="0" class="form-control" name="quantity"
+						<input type="text" min="1" class="form-control" name="quantity"
 							placeholder="Quantity" required>
 					</div>
 				</div>
 
 				<div class="form-group row">
 					<label for="price" class="col-sm-2 col-form-label">Price
-						per Unit</label>
+						per Unit in dollars($)</label>
 					<div class="col-sm-10">
-						<input type="text" min="0" class="form-control" name="price"
+						<input type="text" min="0.0001" class="form-control" name="price"
 							placeholder="Price" required>
 					</div>
 				</div>
