@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -117,7 +118,7 @@ public class TradeExecutionService {
 		} else if (frauds.size() < 3) {
 			return false;
 		}
-		System.out.println("Frad wli Trades");
+		System.out.println("Frad wali Trades");
 		System.out.println(frauds.size());
 		display(frauds);
 		return true;
@@ -128,12 +129,21 @@ public class TradeExecutionService {
 			return null;
 		}
 		ArrayList<Trade> fraudlist = new ArrayList<Trade>();
+
+		ArrayList<Trade> FraudlistTempZ = new ArrayList<Trade>();
+		ArrayList<Trade> FraudlistTempX = new ArrayList<Trade>();
 		Trade X = list.get(list.size() - 1);
+		FraudlistTempX.add(X);
 		boolean alert = false;
-		Trade Z = null;
 		if (!X.getSecurityType().equalsIgnoreCase("put_option")) {
 			for (int i = (list.size() - 2); i >= 0; i--) {
 				Trade Y = list.get(i);
+
+				if (Y.getCustomerID() == X.getCustomerID() && Y.getTradeType().equalsIgnoreCase(X.getTradeType())
+						&& Y.getSecurityType().equalsIgnoreCase(X.getSecurityType())) {
+					FraudlistTempX.add(Y);
+
+				}
 
 				if (Y.getCustomerID() != X.getCustomerID() && Y.getCustomerID() != 1
 						&& ((!Y.getTradeType().equalsIgnoreCase(X.getTradeType())
@@ -141,15 +151,15 @@ public class TradeExecutionService {
 								|| (Y.getTradeType().equalsIgnoreCase(X.getTradeType())
 										&& Y.getSecurityType().equalsIgnoreCase("put_option")))) {
 					alert = true;
-					Z = Y;
+					FraudlistTempZ.addAll(FraudlistTempX);
+					FraudlistTempZ.add(Y);
+					FraudlistTempX.clear();
 				}
 				if (Y.getCustomerID() == X.getCustomerID() && !Y.getTradeType().equalsIgnoreCase(X.getTradeType())
 						&& alert == true && Y.getSecurityType().equalsIgnoreCase(X.getSecurityType())) {
+					fraudlist.addAll(FraudlistTempZ);
 					fraudlist.add(Y);
-					fraudlist.add(Z);
-					fraudlist.add(X);
-					alert = false;
-					break;
+					FraudlistTempZ.clear();
 				}
 
 			}
@@ -160,24 +170,31 @@ public class TradeExecutionService {
 			for (int i = (list.size() - 2); i >= 0; i--) {
 				Trade Y = list.get(i);
 
+				if (Y.getCustomerID() == X.getCustomerID() && Y.getTradeType().equalsIgnoreCase(X.getTradeType())
+						&& Y.getSecurityType().equalsIgnoreCase(X.getSecurityType())) {
+					FraudlistTempX.add(Y);
+
+				}
+
 				if (Y.getCustomerID() != X.getCustomerID() && Y.getCustomerID() != 1
 						&& ((!Y.getTradeType().equalsIgnoreCase(X.getTradeType())
 								&& Y.getSecurityType().equalsIgnoreCase(X.getSecurityType()))
 								|| (Y.getTradeType().equalsIgnoreCase(X.getTradeType())
 										&& !Y.getSecurityType().equalsIgnoreCase(X.getSecurityType())))) {
 					alert = true;
-					Z = Y;
+					FraudlistTempZ.addAll(FraudlistTempX);
+					FraudlistTempZ.add(Y);
+					FraudlistTempX.clear();
 				}
 				if (Y.getCustomerID() == X.getCustomerID() && !Y.getTradeType().equalsIgnoreCase(X.getTradeType())
 						&& alert == true && Y.getSecurityType().equalsIgnoreCase(X.getSecurityType())) {
+					fraudlist.addAll(FraudlistTempZ);
 					fraudlist.add(Y);
-					fraudlist.add(Z);
-					fraudlist.add(X);
-					alert = false;
-					break;
+					FraudlistTempZ.clear();
 				}
 			}
 		}
+		Collections.reverse(fraudlist);
 
 		return fraudlist;
 

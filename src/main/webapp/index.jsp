@@ -6,166 +6,229 @@
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css"
 	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
 	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="//oss.maxcdn.com/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css">
+
 </head>
 <body>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+	<!-- 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" -->
+	<!-- 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" -->
+	<!-- 		crossorigin="anonymous"></script> -->
+	<script src="//oss.maxcdn.com/jquery/1.11.1/jquery.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/popper.min.js"
 		integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 		crossorigin="anonymous"></script>
 	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+		src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"
 		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 		crossorigin="anonymous"></script>
+	<script
+		src="//oss.maxcdn.com/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
-	<h2>Trade Book</h2>
-	<p>Enter the following Trade Details</p>
+
 
 	<%
-	
-	int tradeId  = (Integer) request.getAttribute("tradeId");
-	
+		int tradeId = (Integer) request.getAttribute("tradeId");
 	%>
-
 	<div class="container">
-		<form action="./trade">
-			<div class="form-group row">
-				<label for="tradeid" class="col-sm-2 col-form-label">Trade
-					ID</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" name="tradeid"
-						placeholder="Trade ID" value="<%=tradeId%>" readonly >
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="page-header text-center ">Trade Book</h2>
 				</div>
 			</div>
+		</div>
+
+		<p class="text-center">
+			<b>Enter the following Trade Details</b>
+		</p>
 
 
-			<div class="form-group row">
-				<label for="customerid" class="col-sm-2 col-form-label">Customer
-					ID</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" name="customerid"
-						placeholder="Customer ID" required>
-				</div>
-			</div>
+
+		<div class=" col-md-12  ">
 
 
-			<fieldset class="form-group">
-				<div class="row">
-					<legend class="col-form-legend col-sm-2">Type of Trade</legend>
+			<form action="./trade" id="integerForm" class="form-horizontal">
+				<div class="form-group row">
+					<label for="tradeid" class="col-sm-2 col-form-label">Trade
+						ID</label>
 					<div class="col-sm-10">
-						<div class="form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" type="radio" name="tradetype"
-								id="gridRadios1" value="Buy" checked > Buy
-							</label>
-						</div>
-						<div class="form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" type="radio" name="tradetype"
-								id="gridRadios2" value="Sell"> Sell
-							</label>
-						</div>
+						<input type="text" class="form-control" name="tradeid"
+							placeholder="Trade ID" value="<%=tradeId%>" readonly>
 					</div>
 				</div>
-			</fieldset>
 
 
-			<fieldset class="form-group">
-				<div class="row">
-					<legend class="col-form-legend col-sm-2">Security Name</legend>
+				<div class="form-group row">
+					<label for="customerid" class="col-sm-2 col-form-label">Customer
+						ID</label>
 					<div class="col-sm-10">
-						<div class="form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" type="radio" name="securityname"
-								id="gridRadios1" value="apple" checked> Apple
-							</label>
-						</div>
-						<div class="form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" type="radio" name="securityname"
-								id="gridRadios2" value="facebook"> Facebook
-							</label>
-						</div>
-						<div class="form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" type="radio" name="securityname"
-								id="gridRadios2" value="walmart"> Wallmart
-							</label>
-						</div>
+						<input type="text" class="form-control" name="customerid"
+							placeholder="Customer ID" required>
 					</div>
 				</div>
-			</fieldset>
 
-			<fieldset class="form-group">
-				<div class="row">
-					<legend class="col-form-legend col-sm-2">Security Type</legend>
-					<div class="col-sm-10">
-						<div class="form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" type="radio" name="securitytype"
-								id="gridRadios1" value="stocks" checked> Common Stocks
-							</label>
-						</div>
-						<div class="form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" type="radio" name="securitytype"
-								id="gridRadios2" value="call_option"> Call Option
-							</label>
-						</div>
-						<div class="form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" type="radio" name="securitytype"
-								id="gridRadios2" value="put_option"> Put Option
-							</label>
-						</div>
-						<div class="form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" type="radio" name="securitytype"
-								id="gridRadios2" value="futures"> Futures
-							</label>
+
+				<fieldset class="form-group">
+					<div class="row">
+						<legend class="col-form-legend col-sm-2">Type of Trade</legend>
+						<div class="col-sm-10">
+							<div class="form-check">
+								<label class="form-check-label"> <input
+									class="form-check-input" type="radio" name="tradetype"
+									id="gridRadios1" value="Buy" checked> Buy
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label"> <input
+									class="form-check-input" type="radio" name="tradetype"
+									id="gridRadios2" value="Sell"> Sell
+								</label>
+							</div>
 						</div>
 					</div>
+				</fieldset>
+
+
+				<fieldset class="form-group">
+					<div class="row">
+						<legend class="col-form-legend col-sm-2">Security Name</legend>
+						<div class="col-sm-10">
+							<div class="form-check">
+								<label class="form-check-label"> <input
+									class="form-check-input" type="radio" name="securityname"
+									id="gridRadios1" value="apple" checked> Apple
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label"> <input
+									class="form-check-input" type="radio" name="securityname"
+									id="gridRadios2" value="facebook"> Facebook
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label"> <input
+									class="form-check-input" type="radio" name="securityname"
+									id="gridRadios2" value="walmart"> Wallmart
+								</label>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+
+				<fieldset class="form-group">
+					<div class="row">
+						<legend class="col-form-legend col-sm-2">Security Type</legend>
+						<div class="col-sm-10">
+							<div class="form-check">
+								<label class="form-check-label"> <input
+									class="form-check-input" type="radio" name="securitytype"
+									id="gridRadios1" value="stocks" checked> Common Stocks
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label"> <input
+									class="form-check-input" type="radio" name="securitytype"
+									id="gridRadios2" value="call_option"> Call Option
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label"> <input
+									class="form-check-input" type="radio" name="securitytype"
+									id="gridRadios2" value="put_option"> Put Option
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label"> <input
+									class="form-check-input" type="radio" name="securitytype"
+									id="gridRadios2" value="futures"> Futures
+								</label>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+
+
+				<div class="form-group row">
+					<label for="quantity" class="col-sm-2 col-form-label control-label">Quantity
+						of Trade</label>
+					<div class="col-sm-10">
+						<input type="text" min="0" class="form-control" name="quantity"
+							placeholder="Quantity" required>
+					</div>
 				</div>
-			</fieldset>
 
-
-			<div class="form-group row">
-				<label for="quantity" class="col-sm-2 col-form-label">Quantity
-					of Trade</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" name="quantity"
-						placeholder="Quantity" required>
+				<div class="form-group row">
+					<label for="price" class="col-sm-2 col-form-label">Price
+						per Unit</label>
+					<div class="col-sm-10">
+						<input type="text" min="0" class="form-control" name="price"
+							placeholder="Price" required>
+					</div>
 				</div>
-			</div>
-
-			<div class="form-group row">
-				<label for="price" class="col-sm-2 col-form-label">Price per
-					Unit</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" name="price"
-						placeholder="Price" required>
-				</div>
-			</div>
 
 
-			<!-- 			<div class="form-group row"> -->
-			<!-- 				<label for="time" class="col-sm-2 col-form-label">Timestamp</label> -->
-			<!-- 				<div class="col-sm-10"> -->
-			<!-- 					<input type="text" class="form-control" name="time" -->
-			<!-- 						placeholder="Time"> -->
-			<!-- 				</div> -->
-			<!-- 			</div> -->
+				<!-- 			<div class="form-group row"> -->
+				<!-- 				<label for="time" class="col-sm-2 col-form-label">Timestamp</label> -->
+				<!-- 				<div class="col-sm-10"> -->
+				<!-- 					<input type="text" class="form-control" name="time" -->
+				<!-- 						placeholder="Time"> -->
+				<!-- 				</div> -->
+				<!-- 			</div> -->
 
-			<input type="hidden" name="operation" id="operation" value="execute">
-			<input type="submit">
-		</form>
+
+
+				<input type="hidden" name="operation" id="operation" value="execute">
+				<input type="submit" class="btn btn-primary  center-block">
+
+
+			</form>
+		</div>
+
 	</div>
 </body>
 
+<script>
+	$(document).ready(function() {
+		$('#integerForm').bootstrapValidator({
+			framework : 'bootstrap',
+			icon : {
+				valid : 'glyphicon glyphicon-ok',
+				invalid : 'glyphicon glyphicon-remove',
+				validating : 'glyphicon glyphicon-refresh'
+			},
+			fields : {
+				quantity : {
+					validators : {
+						integer : {
+							message : 'The value is not an integer . ',
+
+						}
+					}
+				},
+				price : {
+					validators : {
+						numeric : {
+							message : 'Not a valid price . ',
+							thousandsSeparator : ',',
+							decimalSeparator : '.'
+						}
+					}
+				},
+				customerid : {
+					validators : {
+						integer : {
+							message : 'The value is not an integer . '
+
+						}
+					}
+				}
+			}
+		});
+	});
+</script>
 </html>
 
