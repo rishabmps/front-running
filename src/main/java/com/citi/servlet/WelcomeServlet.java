@@ -61,7 +61,8 @@ public class WelcomeServlet extends HttpServlet {
 			ArrayList<Trade> frauds = service.executeTrade(trade);
 			if (frauds!=null) {
 				System.out.println("Fraud Detected");
-				
+				request.setAttribute("Trades", frauds);
+				request.getRequestDispatcher("/flaggedlist.jsp").forward(request, response);
 				
 			} else {
 				System.out.println("No Fraud Detected");
