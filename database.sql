@@ -21,3 +21,7 @@ CREATE TABLE [dbo].[AlertTable]( [TradeID] [int] NOT NULL, [CustomerID] [int] NO
 
 select * from AppleCustomerOrder
 select * from AppleFirmOrder
+
+truncate table AppleCustomerOrder
+truncate table FacebookCustomerOrder
+truncate table WalmartCustomerOrder

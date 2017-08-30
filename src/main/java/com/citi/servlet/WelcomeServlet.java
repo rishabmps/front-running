@@ -1,6 +1,7 @@
 package com.citi.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -57,11 +58,16 @@ public class WelcomeServlet extends HttpServlet {
 					Integer.parseInt(request.getParameter("quantity")));
 
 			TradeExecutionService service = new TradeExecutionService();
-			boolean isFraud = service.executeTrade(trade);
-			if (isFraud) {
+			ArrayList<Trade> frauds = service.executeTrade(trade);
+			if (frauds!=null) {
 				System.out.println("Fraud Detected");
+				
+				
 			} else {
 				System.out.println("No Fraud Detected");
+				request.setAttribute("isFraud",new Boolean(false) );
+				request.setAttribute("tradeId", ++tradeId);
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			}
 		}
 		

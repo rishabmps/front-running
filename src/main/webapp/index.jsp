@@ -32,7 +32,9 @@
 
 	<%
 		int tradeId = (Integer) request.getAttribute("tradeId");
+		System.out.println(tradeId);
 	%>
+
 	<div class="container">
 		<div class="jumbotron">
 			<div class="row">
@@ -43,7 +45,21 @@
 		</div>
 
 		<p class="text-center">
+			<%
+				Boolean isFraud = (Boolean) request.getAttribute("isFraud");
+				System.out.println(isFraud);
+				if (isFraud != null && !isFraud) {
+			%>
+			<b>Sucessfully executed trade. Enter details below to execute
+				more trade.</b>
+
+			<%
+				} else {
+			%>
 			<b>Enter the following Trade Details</b>
+			<%
+				}
+			%>
 		</p>
 
 
@@ -230,5 +246,6 @@
 		});
 	});
 </script>
+
 </html>
 

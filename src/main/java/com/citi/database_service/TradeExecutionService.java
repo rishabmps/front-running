@@ -52,7 +52,7 @@ public class TradeExecutionService {
 
 	}
 
-	public boolean executeTrade(Trade trade) {
+	public ArrayList<Trade> executeTrade(Trade trade) {
 		// TODO Auto-generated method stub
 
 		DbManager manager = new DbManager();
@@ -92,11 +92,11 @@ public class TradeExecutionService {
 		// }
 
 		manager.closeConnection();
-		return false;
+		return null;
 
 	}
 
-	private boolean checkFraud(Trade trade, Date date, Date prevDate, DbManager manager, String tableName) {
+	private ArrayList<Trade> checkFraud(Trade trade, Date date, Date prevDate, DbManager manager, String tableName) {
 		// TODO Auto-generated method stub
 		String endDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 		String startingDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(prevDate);
@@ -110,18 +110,18 @@ public class TradeExecutionService {
 		return isFraud(list);
 	}
 
-	private boolean isFraud(ArrayList<Trade> list) {
+	private ArrayList<Trade> isFraud(ArrayList<Trade> list) {
 		// TODO Auto-generated method stub
 		ArrayList<Trade> frauds = detection(list);
 		if (frauds == null) {
-			return false;
+			return null;
 		} else if (frauds.size() < 3) {
-			return false;
+			return null;
 		}
 		System.out.println("Frad wali Trades");
 		System.out.println(frauds.size());
 		display(frauds);
-		return true;
+		return frauds;
 	}
 
 	private ArrayList<Trade> detection(ArrayList<Trade> list) {
