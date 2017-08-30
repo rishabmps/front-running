@@ -14,4 +14,11 @@
   	<servlet-name>WelcomeServlet</servlet-name>
   	<url-pattern>/trade</url-pattern>
   </servlet-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>trade</welcome-file>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+</welcome-file-list>
 </web-app>

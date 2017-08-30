@@ -20,8 +20,12 @@ public class WelcomeServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
+	private int tradeId;
+
 	public WelcomeServlet() {
 		super();
+		tradeId = 0;
+
 		// TODO Auto-generated constructor stub
 	}
 
@@ -38,13 +42,29 @@ public class WelcomeServlet extends HttpServlet {
 		// out.println(request.getParameter("tradeid"));
 		//
 		// System.out.println("kajshdjkasbdjk");
-		Trade trade = new Trade(Integer.parseInt(request.getParameter("tradeid")),
-				Integer.parseInt(request.getParameter("customerid")), request.getParameter("tradetype"),
-				request.getParameter("securitytype"), request.getParameter("securityname"),
-				Float.parseFloat(request.getParameter("price")), Integer.parseInt(request.getParameter("quantity")));
+		String operation = request.getParameter("operation");
+		if (operation == null) {
+			request.setAttribute("tradeId", ++tradeId);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+		}
+		
+		else if (operation != null && operation == "execute") {
 
-		TradeExecutionService service = new TradeExecutionService();
-		service.executeTrade(trade);
+			Trade trade = new Trade(Integer.parseInt(request.getParameter("tradeid")),
+					Integer.parseInt(request.getParameter("customerid")), request.getParameter("tradetype"),
+					request.getParameter("securitytype"), request.getParameter("securityname"),
+					Float.parseFloat(request.getParameter("price")),
+					Integer.parseInt(request.getParameter("quantity")));
+
+			TradeExecutionService service = new TradeExecutionService();
+			boolean isFraud = service.executeTrade(trade);
+			if (isFraud) {
+				System.out.println("Fraud Detected");
+			} else {
+				System.out.println("No Fraud Detected");
+			}
+		}
+		System.out.println(operation);
 
 	}
 

@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -59,45 +58,49 @@ public class TradeExecutionService {
 		System.out.println(trade);
 		DateTime date = new DateTime(trade.getTime());
 		DateTime prevDate = date.minusMinutes(10);
-//		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
-		if (trade.getCustomerID() == 1) // citi ID
-		{
-			System.out.println("inside loop");
-			if (trade.getSecurityName().equalsIgnoreCase("apple")) {
-				insertTrade(manager, trade, "AppleFirmOrder");
-				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"AppleFirmOrder");
-			} else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
-				insertTrade(manager, trade, "FacebookFirmOrder");
-				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"FacebookFirmOrder");
-			} else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
-				insertTrade(manager, trade, "WalmartFirmOrder");
-				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"WalmartFirmOrder");
-				
-			}
-		} else {
-			if (trade.getSecurityName().equalsIgnoreCase("apple")) {
-				insertTrade(manager, trade, "AppleCustomerOrder");
-				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"AppleCustomerOrder");
-			} else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
-				insertTrade(manager, trade, "FacebookCustomerOrder");
-				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"FacebookCustomerOrder");
-			} else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
-				insertTrade(manager, trade, "WalmartCustomerOrder");
-				return checkFraud(trade, date.toDate(), prevDate.toDate(), manager,"WalmartCustomerOrder");
-			}
+		// DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		// if (trade.getCustomerID() == 1) // citi ID
+		// {
+		// System.out.println("inside loop");
+		// if (trade.getSecurityName().equalsIgnoreCase("apple")) {
+		// insertTrade(manager, trade, "AppleFirmOrder");
+		// return checkFraud(trade, date.toDate(), prevDate.toDate(),
+		// manager,"AppleFirmOrder");
+		// } else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
+		// insertTrade(manager, trade, "FacebookFirmOrder");
+		// return checkFraud(trade, date.toDate(), prevDate.toDate(),
+		// manager,"FacebookFirmOrder");
+		// } else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
+		// insertTrade(manager, trade, "WalmartFirmOrder");
+		// return checkFraud(trade, date.toDate(), prevDate.toDate(),
+		// manager,"WalmartFirmOrder");
+		//
+		// }
+		// } else {
+		if (trade.getSecurityName().equalsIgnoreCase("apple")) {
+			insertTrade(manager, trade, "AppleCustomerOrder");
+			return checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "AppleCustomerOrder");
+		} else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
+			insertTrade(manager, trade, "FacebookCustomerOrder");
+			return checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "FacebookCustomerOrder");
+		} else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
+			insertTrade(manager, trade, "WalmartCustomerOrder");
+			return checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "WalmartCustomerOrder");
 		}
-		
+		// }
+
 		manager.closeConnection();
 		return false;
 
 	}
 
-	private boolean checkFraud(Trade trade, Date date, Date prevDate, DbManager manager,String tableName) {
+	private boolean checkFraud(Trade trade, Date date, Date prevDate, DbManager manager, String tableName) {
 		// TODO Auto-generated method stub
 		String endDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 		String startingDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(prevDate);
-		String query = "select * from AppleFirmOrder where Time between '" + startingDate + "' and '" + endDate + "'";
+		String query = "select * from " + tableName + " where Time between '" + startingDate + "' and '" + endDate
+				+ "'";
 		System.out.println(query);
 		ResultSet result = manager.findAll(query);
 		System.out.println(result);
@@ -105,34 +108,93 @@ public class TradeExecutionService {
 		display(list);
 		return isFraud(list);
 	}
-	
-	
 
 	private boolean isFraud(ArrayList<Trade> list) {
 		// TODO Auto-generated method stub
-		if(detection(list)==null){
+		ArrayList<Trade> frauds = detection(list);
+		if(frauds==null){
 			return false;
 		}
+		else if (frauds.size()<3) {
+			return false;
+		}
+		System.out.println("Frad wli Trades");
+		System.out.println(frauds.size());
+		display(frauds);
 		return true;
 	}
 
 	private ArrayList<Trade> detection(ArrayList<Trade> list) {
-		// TODO Auto-generated method stub
-		return null;
+		if (list.size() < 3) {
+			return null;
+		}
+		ArrayList<Trade> fraudlist = new ArrayList<Trade>();
+		Trade X = list.get(list.size() - 1);
+		boolean alert = false;
+		Trade Z = null;
+		if (!X.getSecurityType().equalsIgnoreCase("put_option")) {
+			for (int i = (list.size() - 2); i >= 0; i--) {
+				Trade Y = list.get(i);
+
+				if (Y.getCustomerID() != X.getCustomerID() && Y.getCustomerID() != 1
+						&& ((!Y.getTradeType().equalsIgnoreCase(X.getTradeType())
+								&& !Y.getSecurityType().equalsIgnoreCase("put_option"))
+								|| (Y.getTradeType().equalsIgnoreCase(X.getTradeType())
+										&& Y.getSecurityType().equalsIgnoreCase("put_option")))) {
+					alert = true;
+					Z = Y;
+				}
+				if (Y.getCustomerID() == X.getCustomerID() && !Y.getTradeType().equalsIgnoreCase(X.getTradeType())
+						&& alert == true && Y.getSecurityType().equalsIgnoreCase(X.getSecurityType())) {
+					fraudlist.add(Y);
+					fraudlist.add(Z);
+					fraudlist.add(X);
+					alert = false;
+					break;
+				}
+
+			}
+
+		}
+
+		if (X.getSecurityType().equalsIgnoreCase("put_option")) {
+			for (int i = (list.size() - 2); i >= 0; i--) {
+				Trade Y = list.get(i);
+
+				if (Y.getCustomerID() != X.getCustomerID() && Y.getCustomerID() != 1
+						&& ((!Y.getTradeType().equalsIgnoreCase(X.getTradeType())
+								&& Y.getSecurityType().equalsIgnoreCase(X.getSecurityType()))
+								|| (Y.getTradeType().equalsIgnoreCase(X.getTradeType())
+										&& !Y.getSecurityType().equalsIgnoreCase(X.getSecurityType())))) {
+					alert = true;
+					Z = Y;
+				}
+				if (Y.getCustomerID() == X.getCustomerID() && !Y.getTradeType().equalsIgnoreCase(X.getTradeType())
+						&& alert == true && Y.getSecurityType().equalsIgnoreCase(X.getSecurityType())) {
+					fraudlist.add(Y);
+					fraudlist.add(Z);
+					fraudlist.add(X);
+					alert = false;
+					break;
+				}
+			}
+		}
+
+		return fraudlist;
+
 	}
 
 	private void display(ArrayList<Trade> list) {
 		// TODO Auto-generated method stub
-		if(list!=null){
+		if (list != null) {
 			for (Iterator<Trade> iterator = list.iterator(); iterator.hasNext();) {
 				Trade trade = (Trade) iterator.next();
 				System.out.println(trade);
 			}
-		}
-		else{
+		} else {
 			System.out.println("List is Null");
 		}
-		
+
 	}
 
 	private ArrayList<Trade> convertToArrayList(ResultSet result) {
