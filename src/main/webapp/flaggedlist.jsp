@@ -27,9 +27,9 @@
 		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 		crossorigin="anonymous"></script>
 	<div class="container">
-		<div class="jumbotron">
+		<div class="jumbotron page-header">
 			<h1>
-				<center>Front Running Trades</center>
+				<center>Front Running Detected</center>
 			</h1>
 		</div>
 
@@ -72,7 +72,7 @@
 		<form action="./trade">
 			<input type="hidden" name="operation" id="operation" value="home">
 			<center>
-				<input type="submit" class="btn btn-primary" value="back">
+				<input type="submit" id="back_button" class="btn btn-primary" value="back">
 			</center>
 		</form>
 		<%

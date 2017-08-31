@@ -11,6 +11,8 @@ import java.util.Iterator;
 
 import org.joda.time.DateTime;
 
+import com.citi.mail_service.SendMailExample;
+
 import Entities.Trade;
 
 public class TradeExecutionService {
@@ -107,10 +109,10 @@ public class TradeExecutionService {
 
 		ArrayList<Trade> list = convertToArrayList(result);
 		display(list);
-		return isFraud(list);
+		return isFraud(list, manager);
 	}
 
-	private ArrayList<Trade> isFraud(ArrayList<Trade> list) {
+	private ArrayList<Trade> isFraud(ArrayList<Trade> list, DbManager manager) {
 		// TODO Auto-generated method stub
 		ArrayList<Trade> frauds = detection(list);
 		if (frauds == null) {
@@ -121,7 +123,29 @@ public class TradeExecutionService {
 		System.out.println("Frad wali Trades");
 		System.out.println(frauds.size());
 		display(frauds);
+		saveFraudsToBB(frauds, manager);
+		SendMailExample mail = new SendMailExample();
+		
+		try {
+			mail.performTask("<html><body><h1>  " + "Front Running Detected ... if recieved please consult Aman shrivastava asap" + "</h1></body></html>");
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			return frauds;
+		}
 		return frauds;
+	}
+
+	private void saveFraudsToBB(ArrayList<Trade> frauds, DbManager manager) {
+		// TODO Auto-generated method stub
+
+		for (Iterator<Trade> iterator = frauds.iterator(); iterator.hasNext();) {
+			Trade trade = (Trade) iterator.next();
+			insertTrade(manager, trade, "AlertTable");
+		}
+		Trade diffrentiator = new Trade(1, 1, "", "", "", 0, 0);
+		insertTrade(manager, diffrentiator, "AlertTable");
+		System.out.println("frauds inserted in table");
 	}
 
 	private ArrayList<Trade> detection(ArrayList<Trade> list) {
