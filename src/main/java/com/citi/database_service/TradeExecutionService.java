@@ -71,7 +71,7 @@ public class TradeExecutionService {
 		DbManager manager = new DbManager();
 		System.out.println(trade);
 		DateTime date = new DateTime(trade.getTime());
-		DateTime prevDate = date.minusSeconds(10);
+		DateTime prevDate = date.minusMinutes(10);
 		ArrayList<Trade> frauds = null;
 		// DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

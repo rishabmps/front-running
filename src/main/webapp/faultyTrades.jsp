@@ -78,7 +78,7 @@
 				}
 			%>
 		</table>
-		<form action="./trade">
+		<form action="./trade"  method="post">
 			<input type="hidden" name="operation" id="operation" value="home">
 			<center>
 				<input type="submit" id="back_button" class="btn btn-primary" value="Home">

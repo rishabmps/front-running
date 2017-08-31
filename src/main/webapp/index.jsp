@@ -67,9 +67,9 @@
 		<div class=" col-md-12  ">
 
 
-			<form action="./trade" id="integerForm" class="form-horizontal">
+			<form action="./trade" id="integerForm" class="form-horizontal" method="post">
 				<div>
-					
+
 					<div class="col-sm-10">
 						<input type="hidden" class="form-control" name="tradeid"
 							placeholder="Trade ID" value="<%=tradeId%>" readonly>
@@ -197,7 +197,8 @@
 
 
 				<input type="hidden" name="operation" id="operation" value="execute">
-				<input type="submit" id="submitbutton"class="btn btn-primary  center-block">
+				<input type="submit" id="submitbutton"
+					class="btn btn-primary  center-block">
 
 
 			</form>
