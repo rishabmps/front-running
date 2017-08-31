@@ -23,55 +23,68 @@
 	integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 	crossorigin="anonymous"></script>
 <body>
-
-	<%
-		ArrayList<Trade> trades = (ArrayList<Trade>) request.getAttribute("trades");
-	%>
-	<table class="table ">
-		<thead>
-			<tr class="thead-inverse">
-				<th>Trade ID</th>
-				<th>Customer ID</th>
-				<th>Trade Type</th>
-				<th>Security Type</th>
-				<th>Security Name</th>
-				<th>Time</th>
-				<th>Price</th>
-				<th>Quantity</th>
+	<div class="container">
+		<div class="jumbotron page-header">
+			<h1>
+				<center>All Front Running Trades</center>
+			</h1>
+		</div>
+		<%
+			ArrayList<Trade> trades = (ArrayList<Trade>) request.getAttribute("trades");
+		%>
+		<table class="table ">
+			<thead>
+				<tr class="thead-inverse">
+					<th>Trade ID</th>
+					<th>Customer ID</th>
+					<th>Trade Type</th>
+					<th>Security Type</th>
+					<th>Security Name</th>
+					<th>Time</th>
+					<th>Price</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+			<%
+				for (Trade t : trades) {
+					if (t.getQuantity() == 0) {
+			%>
+			<tr class="table-warning">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
-		</thead>
-		<%
-			for (Trade t : trades) {
-				if (t.getQuantity() == 0) {
-		%>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<%
-			} else {
-		%>
-		<tr class="bg-info">
-			<td><%=t.getTradeId()%></td>
-			<td><%=t.getCustomerID()%></td>
-			<td><%=t.getTradeType()%></td>
-			<td><%=t.getSecurityType()%></td>
-			<td><%=t.getSecurityName()%></td>
-			<td><%=t.getTime()%></td>
-			<td><%=t.getPrice()%></td>
-			<td><%=t.getQuantity()%></td>
-		</tr>
+			<%
+				} else {
+			%>
+			<tr>
+				<td><%=t.getTradeId()%></td>
+				<td><%=t.getCustomerID()%></td>
+				<td><%=t.getTradeType()%></td>
+				<td><%=t.getSecurityType()%></td>
+				<td><%=t.getSecurityName()%></td>
+				<td><%=t.getTime()%></td>
+				<td><%=t.getPrice()%></td>
+				<td><%=t.getQuantity()%></td>
+			</tr>
 
-		<%
-			}
-			}
-		%>
-	</table>
+			<%
+				}
+				}
+			%>
+		</table>
+		<form action="./trade">
+			<input type="hidden" name="operation" id="operation" value="home">
+			<center>
+				<input type="submit" id="back_button" class="btn btn-primary" value="Home">
+			</center>
+		</form>
+		
+	</div>
 </body>
 </html>

@@ -83,7 +83,8 @@ public class WelcomeServlet extends HttpServlet {
 			TradeExecutionService service = new TradeExecutionService();
 			ArrayList<Trade> allTrades = service.AllFrauds();
 			request.setAttribute("trades", allTrades);
-			request.getRequestDispatcher("/faultyTrades.jsp");
+			request.getRequestDispatcher("/faultyTrades.jsp").forward(request, response);
+			System.out.println("blah");
 		}
 
 	}
