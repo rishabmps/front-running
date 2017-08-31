@@ -38,8 +38,8 @@
 				ArrayList<Trade> tradeList = (ArrayList<Trade>) request.getAttribute("Trades");
 		%>
 
-		<table class="table table-inverse">
-			<thead>
+		<table class="table ">
+			<thead class="thead-inverse">
 				<tr>
 					<th>Trade ID</th>
 					<th>Customer ID</th>
