@@ -40,10 +40,21 @@ public class TradeExecutionService {
 	private void insertTrade(DbManager manager, Trade trade, String tableName) {
 		System.out.println(manager.connection);
 		try {
-			String query = "INSERT into " + tableName + " values (" + trade.getTradeId() + ", " + trade.getCustomerID()
-					+ " , '" + trade.getTradeType() + "' ,'" + trade.getSecurityType() + "' , '"
-					+ trade.getSecurityName() + "', " + trade.getPrice() + ", " + trade.getQuantity() + ",'"
-					+ new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(trade.getTime()) + "')";
+			String query = "";
+			if (tableName == "AlertTable") {
+				query = "INSERT into " + tableName + " values (" + trade.getTradeId() + " ," + trade.getCustomerID()
+						+ " , '" + trade.getTradeType() + "' ,'" + trade.getSecurityType() + "' , '"
+						+ trade.getSecurityName() + "', " + trade.getPrice() + ", " + trade.getQuantity() + ",'"
+						+ new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(trade.getTime()) + "')";
+
+			} else {
+
+				query = "INSERT into " + tableName
+						+ "(CustomerID,TradeType,SecurityType,SecurityName,Price,Quantity,Time) values ("
+						+ trade.getCustomerID() + " , '" + trade.getTradeType() + "' ,'" + trade.getSecurityType()
+						+ "' , '" + trade.getSecurityName() + "', " + trade.getPrice() + ", " + trade.getQuantity()
+						+ ",'" + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(trade.getTime()) + "')";
+			}
 			System.out.println(query);
 			manager.Update(query);
 
@@ -56,12 +67,12 @@ public class TradeExecutionService {
 
 	public ArrayList<Trade> executeTrade(Trade trade) {
 		// TODO Auto-generated method stub
-		
+
 		DbManager manager = new DbManager();
 		System.out.println(trade);
 		DateTime date = new DateTime(trade.getTime());
-		DateTime prevDate = date.minusMinutes(10);
-		ArrayList<Trade> frauds = null ;
+		DateTime prevDate = date.minusSeconds(10);
+		ArrayList<Trade> frauds = null;
 		// DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		// if (trade.getCustomerID() == 1) // citi ID
@@ -84,16 +95,16 @@ public class TradeExecutionService {
 		// } else {
 		if (trade.getSecurityName().equalsIgnoreCase("apple")) {
 			insertTrade(manager, trade, "AppleCustomerOrder");
-			frauds=  checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "AppleCustomerOrder");
+			frauds = checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "AppleCustomerOrder");
 		} else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
 			insertTrade(manager, trade, "FacebookCustomerOrder");
-			frauds =  checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "FacebookCustomerOrder");
+			frauds = checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "FacebookCustomerOrder");
 		} else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
 			insertTrade(manager, trade, "WalmartCustomerOrder");
-			frauds =  checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "WalmartCustomerOrder");
+			frauds = checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "WalmartCustomerOrder");
 		}
 		// }
-		
+
 		manager.closeConnection();
 		System.out.println("connection closed");
 		return frauds;
@@ -137,15 +148,13 @@ public class TradeExecutionService {
 		return frauds;
 	}
 
-	private void sendMail() throws Exception{
+	private void sendMail() throws Exception {
 		WelcomeServlet.executor.execute(new Runnable() {
 			public void run() {
 
 				SendMailExample mail = new SendMailExample();
 
-				mail.performTask("<html><body><h1>  "
-						+ "Front Running Detected ... if recieved please consult Aman shrivastava asap"
-						+ "</h1></body></html>");
+				mail.performTask("<html><body><h1>  " + "Front Running Detected " + "</h1></body></html>");
 
 			}
 		});

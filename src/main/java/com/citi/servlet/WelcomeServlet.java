@@ -84,7 +84,7 @@ public class WelcomeServlet extends HttpServlet {
 			ArrayList<Trade> allTrades = service.AllFrauds();
 			request.setAttribute("trades", allTrades);
 			request.getRequestDispatcher("/faultyTrades.jsp").forward(request, response);
-			System.out.println("blah");
+			
 		}
 
 	}

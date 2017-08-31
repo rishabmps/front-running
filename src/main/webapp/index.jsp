@@ -68,11 +68,10 @@
 
 
 			<form action="./trade" id="integerForm" class="form-horizontal">
-				<div class="form-group row">
-					<label for="tradeid" class="col-sm-2 col-form-label">Trade
-						ID</label>
+				<div>
+					
 					<div class="col-sm-10">
-						<input type="text" class="form-control" name="tradeid"
+						<input type="hidden" class="form-control" name="tradeid"
 							placeholder="Trade ID" value="<%=tradeId%>" readonly>
 					</div>
 				</div>

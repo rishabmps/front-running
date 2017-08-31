@@ -49,7 +49,7 @@ public class SendMailExample {
 
 	private void sendMail(String from, String to, String subject, String messageBody) {
 		try {
-			Session session = Session.getDefaultInstance(properties, authenticator);
+			Session session = Session.getInstance(properties, authenticator);
 			message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
