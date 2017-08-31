@@ -39,7 +39,7 @@
 		<div class="jumbotron">
 			<div class="row">
 				<div class="col-md-12">
-					<h2 class="page-header text-center ">Trade Book</h2>
+					<h2 class="page-header text-center ">Trading Engine</h2>
 				</div>
 			</div>
 		</div>
