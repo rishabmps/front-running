@@ -1,7 +1,6 @@
 package com.citi.database_service;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,30 +11,31 @@ import java.util.Iterator;
 import org.joda.time.DateTime;
 
 import com.citi.mail_service.SendMailExample;
+import com.citi.servlet.WelcomeServlet;
 
 import Entities.Trade;
 
 public class TradeExecutionService {
 
-	public Integer getCount(String query) {
-		// TODO Auto-generated method stub
-		DbManager manager = new DbManager();
-		Integer count = 0;
-
-		ResultSet executeQuery = manager.findAll(query);
-		try {
-			while (executeQuery.next()) {
-				count = executeQuery.getInt("count");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		manager.closeConnection();
-
-		return count;
-
-	}
+	// public Integer getCount(String query) {
+	// // TODO Auto-generated method stub
+	// DbManager manager = new DbManager();
+	// Integer count = 0;
+	//
+	// ResultSet executeQuery = manager.findAll(query);
+	// try {
+	// while (executeQuery.next()) {
+	// count = executeQuery.getInt("count");
+	// }
+	// } catch (SQLException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// manager.closeConnection();
+	//
+	// return count;
+	//
+	// }
 
 	private void insertTrade(DbManager manager, Trade trade, String tableName) {
 		System.out.println(manager.connection);
@@ -56,11 +56,12 @@ public class TradeExecutionService {
 
 	public ArrayList<Trade> executeTrade(Trade trade) {
 		// TODO Auto-generated method stub
-
+		
 		DbManager manager = new DbManager();
 		System.out.println(trade);
 		DateTime date = new DateTime(trade.getTime());
 		DateTime prevDate = date.minusMinutes(10);
+		ArrayList<Trade> frauds = null ;
 		// DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		// if (trade.getCustomerID() == 1) // citi ID
@@ -83,18 +84,19 @@ public class TradeExecutionService {
 		// } else {
 		if (trade.getSecurityName().equalsIgnoreCase("apple")) {
 			insertTrade(manager, trade, "AppleCustomerOrder");
-			return checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "AppleCustomerOrder");
+			frauds=  checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "AppleCustomerOrder");
 		} else if (trade.getSecurityName().equalsIgnoreCase("facebook")) {
 			insertTrade(manager, trade, "FacebookCustomerOrder");
-			return checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "FacebookCustomerOrder");
+			frauds =  checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "FacebookCustomerOrder");
 		} else if (trade.getSecurityName().equalsIgnoreCase("walmart")) {
 			insertTrade(manager, trade, "WalmartCustomerOrder");
-			return checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "WalmartCustomerOrder");
+			frauds =  checkFraud(trade, date.toDate(), prevDate.toDate(), manager, "WalmartCustomerOrder");
 		}
 		// }
-
+		
 		manager.closeConnection();
-		return null;
+		System.out.println("connection closed");
+		return frauds;
 
 	}
 
@@ -123,20 +125,33 @@ public class TradeExecutionService {
 		System.out.println("Frad wali Trades");
 		System.out.println(frauds.size());
 		display(frauds);
-		saveFraudsToBB(frauds, manager);
-		SendMailExample mail = new SendMailExample();
-		
+		saveFraudsToDB(frauds, manager);
 		try {
-			mail.performTask("<html><body><h1>  " + "Front Running Detected ... if recieved please consult Aman shrivastava asap" + "</h1></body></html>");
+			sendMail();
 		} catch (Exception e) {
-
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return frauds;
 		}
+
 		return frauds;
 	}
 
-	private void saveFraudsToBB(ArrayList<Trade> frauds, DbManager manager) {
+	private void sendMail() throws Exception{
+		WelcomeServlet.executor.execute(new Runnable() {
+			public void run() {
+
+				SendMailExample mail = new SendMailExample();
+
+				mail.performTask("<html><body><h1>  "
+						+ "Front Running Detected ... if recieved please consult Aman shrivastava asap"
+						+ "</h1></body></html>");
+
+			}
+		});
+	}
+
+	private void saveFraudsToDB(ArrayList<Trade> frauds, DbManager manager) {
 		// TODO Auto-generated method stub
 
 		for (Iterator<Trade> iterator = frauds.iterator(); iterator.hasNext();) {
@@ -263,6 +278,16 @@ public class TradeExecutionService {
 		}
 
 		return list;
+	}
+
+	public ArrayList<Trade> AllFrauds() {
+		// TODO Auto-generated method stub
+		DbManager manager = new DbManager();
+		String query = "Select * from AlertTable";
+		ResultSet result = manager.findAll(query);
+		ArrayList<Trade> trades = convertToArrayList(result);
+		return trades;
+
 	}
 
 	// public void saveAccount(Account account) {

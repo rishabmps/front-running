@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Previous Trades</title>
+<title>Front Running Detected</title>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css"
 	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
@@ -73,6 +73,13 @@
 			<input type="hidden" name="operation" id="operation" value="home">
 			<center>
 				<input type="submit" id="back_button" class="btn btn-primary" value="back">
+			</center>
+		</form>
+		
+		<form action="./trade">
+			<input type="hidden" name="operation" id="operation" value="listDisplay">
+			<center>
+				<input type="submit" id="list_button" class="btn btn-primary" value="All Fraud Trades">
 			</center>
 		</form>
 		<%

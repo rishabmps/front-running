@@ -2,6 +2,9 @@ package com.citi.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,13 +25,18 @@ public class WelcomeServlet extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	private int tradeId;
+	public static ThreadPoolExecutor executor;
 
 	public WelcomeServlet() {
 		super();
 		tradeId = 0;
-
+		executor = new ThreadPoolExecutor(10, 10, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -44,6 +52,7 @@ public class WelcomeServlet extends HttpServlet {
 		//
 		// System.out.println("kajshdjkasbdjk");
 		String operation = request.getParameter("operation");
+
 		if (operation == null) {
 			sendToHome(request, response);
 		}
@@ -58,21 +67,24 @@ public class WelcomeServlet extends HttpServlet {
 
 			TradeExecutionService service = new TradeExecutionService();
 			ArrayList<Trade> frauds = service.executeTrade(trade);
-			if (frauds!=null) {
+			if (frauds != null) {
 				System.out.println("Fraud Detected");
 				request.setAttribute("Trades", frauds);
 				request.getRequestDispatcher("/flaggedlist.jsp").forward(request, response);
-				
+
 			} else {
 				System.out.println("No Fraud Detected");
-				request.setAttribute("isFraud",new Boolean(false) );
+				request.setAttribute("isFraud", new Boolean(false));
 				sendToHome(request, response);
 			}
-		}
-		else if(operation != null && operation.equalsIgnoreCase("home")){
+		} else if (operation != null && operation.equalsIgnoreCase("home")) {
 			sendToHome(request, response);
+		} else if (operation != null && operation.equalsIgnoreCase("listDisplay")) {
+			TradeExecutionService service = new TradeExecutionService();
+			ArrayList<Trade> allTrades = service.AllFrauds();
+			request.setAttribute("trades", allTrades);
+			request.getRequestDispatcher("/faultyTrades.jsp");
 		}
-		
 
 	}
 

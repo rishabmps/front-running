@@ -3,7 +3,7 @@
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
-
+<title>Trading Engine</title>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css"
