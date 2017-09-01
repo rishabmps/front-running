@@ -32,6 +32,11 @@
 				<center>Front Running Detected</center>
 			</h1>
 		</div>
+		<div class="row">
+			<p class="text-center">
+			An Email has been sent.
+			</p>
+		</div>
 
 		<%
 			try {
@@ -69,17 +74,20 @@
 				}
 			%>
 		</table>
-		<form action="./trade"  method="post">
+		<form action="./trade" method="post">
 			<input type="hidden" name="operation" id="operation" value="home">
 			<center>
-				<input type="submit" id="back_button" class="btn btn-primary" value="back">
+				<input type="submit" id="back_button" class="btn btn-primary"
+					value="back">
 			</center>
 		</form>
-		
-		<form action="./trade"  method="post">
-			<input type="hidden" name="operation" id="operation" value="listDisplay">
+
+		<form action="./trade" method="post">
+			<input type="hidden" name="operation" id="operation"
+				value="listDisplay">
 			<center>
-				<input type="submit" id="list_button" class="btn btn-primary" value="All Fraud Trades">
+				<input type="submit" id="list_button" class="btn btn-primary"
+					value="All Fraud Trades">
 			</center>
 		</form>
 		<%

@@ -37,7 +37,7 @@ public class TradeExecutionService {
 	//
 	// }
 
-	private void insertTrade(DbManager manager, Trade trade, String tableName) {
+	public void insertTrade(DbManager manager, Trade trade, String tableName) {
 		System.out.println(manager.connection);
 		try {
 			String query = "";
@@ -111,7 +111,7 @@ public class TradeExecutionService {
 
 	}
 
-	private ArrayList<Trade> checkFraud(Trade trade, Date date, Date prevDate, DbManager manager, String tableName) {
+	public ArrayList<Trade> checkFraud(Trade trade, Date date, Date prevDate, DbManager manager, String tableName) {
 		// TODO Auto-generated method stub
 		String endDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 		String startingDate = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(prevDate);
@@ -125,7 +125,7 @@ public class TradeExecutionService {
 		return isFraud(list, manager);
 	}
 
-	private ArrayList<Trade> isFraud(ArrayList<Trade> list, DbManager manager) {
+	public ArrayList<Trade> isFraud(ArrayList<Trade> list, DbManager manager) {
 		// TODO Auto-generated method stub
 		ArrayList<Trade> frauds = detection(list);
 		if (frauds == null) {
@@ -141,14 +141,14 @@ public class TradeExecutionService {
 			sendMail();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Mail cannot be send ....Internet is down");
 			return frauds;
 		}
 
 		return frauds;
 	}
 
-	private void sendMail() throws Exception {
+	public void sendMail() throws Exception {
 		WelcomeServlet.executor.execute(new Runnable() {
 			public void run() {
 
@@ -160,7 +160,7 @@ public class TradeExecutionService {
 		});
 	}
 
-	private void saveFraudsToDB(ArrayList<Trade> frauds, DbManager manager) {
+	public void saveFraudsToDB(ArrayList<Trade> frauds, DbManager manager) {
 		// TODO Auto-generated method stub
 
 		for (Iterator<Trade> iterator = frauds.iterator(); iterator.hasNext();) {
@@ -172,7 +172,7 @@ public class TradeExecutionService {
 		System.out.println("frauds inserted in table");
 	}
 
-	private ArrayList<Trade> detection(ArrayList<Trade> list) {
+	public ArrayList<Trade> detection(ArrayList<Trade> list) {
 		if (list.size() < 3) {
 			return null;
 		}
@@ -248,7 +248,7 @@ public class TradeExecutionService {
 
 	}
 
-	private void display(ArrayList<Trade> list) {
+	public void display(ArrayList<Trade> list) {
 		// TODO Auto-generated method stub
 		if (list != null) {
 			for (Iterator<Trade> iterator = list.iterator(); iterator.hasNext();) {
@@ -261,7 +261,7 @@ public class TradeExecutionService {
 
 	}
 
-	private ArrayList<Trade> convertToArrayList(ResultSet result) {
+	public ArrayList<Trade> convertToArrayList(ResultSet result) {
 		// TODO Auto-generated method stub
 		ArrayList<Trade> list = new ArrayList<Trade>();
 
@@ -295,7 +295,10 @@ public class TradeExecutionService {
 		String query = "Select * from AlertTable";
 		ResultSet result = manager.findAll(query);
 		ArrayList<Trade> trades = convertToArrayList(result);
+		manager.closeConnection();
+		System.out.println("connection closed");
 		return trades;
+		
 
 	}
 
