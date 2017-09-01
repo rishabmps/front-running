@@ -32,11 +32,11 @@
 				<center>Front Running Detected</center>
 			</h1>
 		</div>
-		<div class="row">
-			<p class="text-center">
-			An Email has been sent.
-			</p>
-		</div>
+
+		<p class="text-center">An Email has been sent.
+		<h4 class="text-center"></h4>
+		</p>
+
 
 		<%
 			try {
@@ -74,22 +74,27 @@
 				}
 			%>
 		</table>
-		<form action="./trade" method="post">
-			<input type="hidden" name="operation" id="operation" value="home">
-			<center>
-				<input type="submit" id="back_button" class="btn btn-primary"
-					value="back">
-			</center>
-		</form>
-
-		<form action="./trade" method="post">
-			<input type="hidden" name="operation" id="operation"
-				value="listDisplay">
-			<center>
-				<input type="submit" id="list_button" class="btn btn-primary"
-					value="All Fraud Trades">
-			</center>
-		</form>
+		<div class="row">
+			<div class="col-md-6 ">
+				<form action="./trade" method="post">
+					<input type="hidden" name="operation" id="operation" value="home">
+					<center>
+						<input type="submit" id="back_button" class="btn btn-primary"
+							value="back">
+					</center>
+				</form>
+			</div>
+			<div class="col-md-6">
+				<form action="./trade" method="post">
+					<input type="hidden" name="operation" id="operation"
+						value="listDisplay">
+					<center>
+						<input type="submit" id="list_button" class="btn btn-primary"
+							value="All Fraud Trades">
+					</center>
+				</form>
+			</div>
+		</div>
 		<%
 			// Forward to JSP page to display them in a HTML table.
 			} catch (Exception e) {
