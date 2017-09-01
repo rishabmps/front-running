@@ -1,6 +1,7 @@
 package com.citi.database_service;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,25 +18,25 @@ import Entities.Trade;
 
 public class TradeExecutionService {
 
-	// public Integer getCount(String query) {
-	// // TODO Auto-generated method stub
-	// DbManager manager = new DbManager();
-	// Integer count = 0;
-	//
-	// ResultSet executeQuery = manager.findAll(query);
-	// try {
-	// while (executeQuery.next()) {
-	// count = executeQuery.getInt("count");
-	// }
-	// } catch (SQLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// manager.closeConnection();
-	//
-	// return count;
-	//
-	// }
+	public Integer getCount(String query) {
+		// TODO Auto-generated method stub
+		DbManager manager = new DbManager();
+		Integer count = 0;
+
+		ResultSet executeQuery = manager.findAll(query);
+		try {
+			while (executeQuery.next()) {
+				count = executeQuery.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		manager.closeConnection();
+
+		return count;
+
+	}
 
 	public void insertTrade(DbManager manager, Trade trade, String tableName) {
 		System.out.println(manager.connection);
@@ -71,7 +72,7 @@ public class TradeExecutionService {
 		DbManager manager = new DbManager();
 		System.out.println(trade);
 		DateTime date = new DateTime(trade.getTime());
-		DateTime prevDate = date.minusMinutes(10);
+		DateTime prevDate = date.minusSeconds(10);
 		ArrayList<Trade> frauds = null;
 		// DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -138,9 +139,10 @@ public class TradeExecutionService {
 		display(frauds);
 		saveFraudsToDB(frauds, manager);
 		try {
-			sendMail();
+			sendMail(frauds);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+		
 			System.out.println("Mail cannot be send ....Internet is down");
 			return frauds;
 		}
@@ -148,13 +150,13 @@ public class TradeExecutionService {
 		return frauds;
 	}
 
-	public void sendMail() throws Exception {
+	public void sendMail(final ArrayList<Trade> frauds) throws Exception {
 		WelcomeServlet.executor.execute(new Runnable() {
 			public void run() {
 
 				SendMailExample mail = new SendMailExample();
 
-				mail.performTask("<html><body><h1>  " + "Front Running Detected " + "</h1></body></html>");
+				mail.performTask("<html><body><h1>  " + "Front Running Detected <br> "+frauds + "</h1></body></html>");
 
 			}
 		});
@@ -298,7 +300,6 @@ public class TradeExecutionService {
 		manager.closeConnection();
 		System.out.println("connection closed");
 		return trades;
-		
 
 	}
 

@@ -65,6 +65,7 @@ public class SendMailExample {
 			Transport.send(message);
 			System.out.println("Message send successfully....");
 		} catch (Exception me) {
+			
 			me.printStackTrace();
 		}
 	}
